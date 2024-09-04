@@ -1,5 +1,12 @@
 import { theme } from '@/theme'
-import { StyleSheet, FlatList, TextInput, View, Text } from 'react-native'
+import {
+    StyleSheet,
+    FlatList,
+    TextInput,
+    View,
+    Text,
+    LayoutAnimation,
+} from 'react-native'
 import { ShoppingListItem } from '@/components/ShoppingListItem'
 import { useState, useEffect } from 'react'
 import { getFromStorage, saveToStorage } from '@/utils/storage'
@@ -27,6 +34,9 @@ export default function HomeScreen() {
         const fetchInitial = async () => {
             const data = await getFromStorage(storageKey)
             if (data) {
+                LayoutAnimation.configureNext(
+                    LayoutAnimation.Presets.easeInEaseOut
+                )
                 setShoppingList(data)
             }
         }
@@ -44,6 +54,7 @@ export default function HomeScreen() {
 
                 ...shoppingList,
             ]
+            LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
             setShoppingList(newShoppingList)
             saveToStorage(storageKey, newShoppingList)
             setValue(undefined)
@@ -52,6 +63,7 @@ export default function HomeScreen() {
 
     const handleDelete = (id: string) => {
         const newShoppingList = shoppingList.filter((item) => item.id !== id)
+        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
         setShoppingList(newShoppingList)
     }
 
@@ -70,6 +82,7 @@ export default function HomeScreen() {
             }
         })
         saveToStorage(storageKey, newShoppingList)
+        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
         setShoppingList(newShoppingList)
     }
 
